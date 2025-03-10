@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { FaWhatsapp } from "react-icons/fa"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
-import { LeadCaptureForm } from "./lead-capture-form"
+import { LeadCaptureForm } from "./leadCaptureForm"
 import TypingAnimation from "./typeWriting"
 
 function TextHero() {

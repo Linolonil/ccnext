@@ -1,5 +1,6 @@
 import React from 'react'
-import Navbar from "./components/Navbar";
+import Navbar from "../../../components/Navbar";
+import Footer from '../../../components/Footer';
 
 export default function LandingPageLayout({
   children,
@@ -8,9 +9,9 @@ export default function LandingPageLayout({
 }>) {
   return (
      <main>
-        <h1>123</h1>
         <Navbar />
         {children}
+        <Footer/>
      </main>
   );
 }

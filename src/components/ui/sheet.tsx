@@ -73,7 +73,7 @@ function SheetContent({
       >
         {/* Adicionando o título do sheet para acessibilidade */}
         <SheetHeader>
-          <SheetTitle>Your Title Here</SheetTitle>
+          <SheetTitle></SheetTitle>
         </SheetHeader>
 
         {children}

@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Phone, Mail, MapPin, Clock, Send, Instagram, Linkedin, Facebook } from "lucide-react"
-import SectionDivider from "./SectionDivider"
+import SectionDivider from "../../landpage/components/SectionDivider"
 
 export default function ContactsComponent() {
   const [formData, setFormData] = useState({
@@ -54,7 +54,7 @@ export default function ContactsComponent() {
   }
 
   return (
-    <section id="contatos" className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+    <section id="contatos" className="py-20 bg-gradient-to-br from-gray-50 to-gray-100 ">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -77,7 +77,6 @@ export default function ContactsComponent() {
             viewport={{ once: true }}
           >
             <Card className="border-0 shadow-xl overflow-hidden">
-              <div className="absolute top-0 left-0 w-1 h-full bg-[#d08d58]"></div>
 
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl font-bold text-[#3c2a21]">Envie uma mensagem</CardTitle>
@@ -130,7 +129,7 @@ export default function ContactsComponent() {
                         type="tel"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="(00) 00000-0000"
+                        placeholder="(92) 99432-2782"
                         className="border-gray-300 focus-visible:ring-[#d08d58]"
                         required
                       />

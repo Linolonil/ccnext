@@ -2,32 +2,29 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { Scale, Users, Star } from "lucide-react"
+import { FaBalanceScale, FaUsers, FaStar } from "react-icons/fa"
 
 const statsData = [
   {
     id: 1,
-    icon: <Scale className="h-10 w-10" />,
+    icon: <FaBalanceScale className="h-8 w-8" />,
     title: "Casos resolvidos",
-    value: "1.000+",
+    value: "500+",
     description: "Casos resolvidos com sucesso e eficiência.",
-    color: "from-amber-700/20 to-amber-700/5",
   },
   {
     id: 2,
-    icon: <Users className="h-10 w-10" />,
+    icon: <FaUsers className="h-8 w-8" />,
     title: "Advogados experientes",
-    value: "25+",
+    value: "5+",
     description: "Anos de experiência jurídica combinada.",
-    color: "from-amber-700/20 to-amber-700/5",
   },
   {
     id: 3,
-    icon: <Star className="h-10 w-10" />,
+    icon: <FaStar className="h-8 w-8" />,
     title: "Excelência reconhecida",
     value: "5.0",
     description: "Avaliação média de nossos clientes.",
-    color: "from-amber-700/20 to-amber-700/5",
   },
 ]
 
@@ -48,11 +45,11 @@ function StatsHero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
             >
-              <Card className="border border-gray-800/20 overflow-hidden  shadow-lg bg-black/70 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+              <Card className="border border-gray-800/20 overflow-hidden shadow-lg bg-[#3c2a21] hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                 <CardContent className="p-0">
                   <div className="relative">
                     {/* Subtle gradient background */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-20`}></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#d08d58]/20 to-[#d08d58]/5 opacity-30"></div>
 
                     {/* Decorative elements */}
                     <div className="absolute top-0 left-0 w-16 h-1 bg-[#d08d58]"></div>
@@ -67,7 +64,7 @@ function StatsHero() {
                       </div>
 
                       {/* Divider */}
-                      <div className="w-full h-px bg-gray-700/30 my-4"></div>
+                      <div className="w-full h-px bg-[#d08d58]/20 my-4"></div>
 
                       {/* Value and description */}
                       <div className="space-y-2">

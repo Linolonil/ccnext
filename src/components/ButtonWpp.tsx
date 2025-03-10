@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { usePathname } from "next/navigation";
+
 
 // This would normally be imported from your data file
 const whatsappBaseUrl = "https://wa.me/5500000000000"
@@ -10,6 +12,9 @@ const whatsappBaseUrl = "https://wa.me/5500000000000"
 export default function WhatsAppButton() {
   const [isVisible, setIsVisible] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
+
+  const pathname = usePathname();
+  const isBlog = pathname.startsWith("/blogs")
 
   // Show button after scrolling down
   useEffect(() => {
@@ -36,6 +41,8 @@ export default function WhatsAppButton() {
       return () => clearTimeout(timer)
     }
   }, [isVisible])
+
+ if(isBlog){return null}
 
   return (
     <AnimatePresence>

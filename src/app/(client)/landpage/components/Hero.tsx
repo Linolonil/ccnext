@@ -5,7 +5,7 @@ import TextHero from "./TextHero";
 export default function Hero() {
   return (
     <section
-    className="relative h-full md:h-[calc(100vh + 250px)] flex items-center flex-col lg:pt-32"
+    className="relative h-full md:h-[calc(100vh + 250px)] md:pt-0 pt-14 flex items-center flex-col lg:pt-32"
     id="hero-section"
     style={{
       backgroundImage: "url('/bg-2.png')",

@@ -5,28 +5,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { MessageSquare, Users, Award, Scale } from "lucide-react"
 import SectionDivider from "./SectionDivider"
+import { aboutTexts } from "../../(constants)/aboutTextsConstants"
 
 // This would normally be imported from your data file
-const whatsappBaseUrl = "https://wa.me/5500000000000"
+const whatsappBaseUrl = "https://wa.me/559294322782"
 
-// Sample about texts - replace with your actual data import
-const aboutTexts = [
-  {
-    id: 1,
-    content:
-      "O escritório Carvalho & Castro Advogados Associados foi fundado com o compromisso de oferecer serviços jurídicos de excelência, pautados pela ética, transparência e dedicação aos interesses de nossos clientes.",
-  },
-  {
-    id: 2,
-    content:
-      "Nossa equipe é formada por profissionais altamente qualificados, com vasta experiência em diversas áreas do Direito. Buscamos constantemente o aprimoramento técnico e o acompanhamento das evoluções legislativas e jurisprudenciais para oferecer as melhores soluções jurídicas.",
-  },
-  {
-    id: 3,
-    content:
-      "Acreditamos que cada caso é único e merece atenção personalizada. Por isso, desenvolvemos estratégias específicas para cada situação, sempre com o objetivo de alcançar os melhores resultados para nossos clientes, seja na esfera consultiva ou contenciosa.",
-  },
-]
+
 
 export default function AboutComponent() {
   return (
@@ -53,7 +37,7 @@ export default function AboutComponent() {
           viewport={{ once: true }}
           className="text-white"
         >
-          <SectionDivider title="Sobre Nós" subtitle="Conheça nossa história e valores" className="text-white" />
+          <SectionDivider title="Sobre Nós" subtitle="Conheça nossa história e valores" className="text-white"  styless="text-gray-300" />
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8 mt-12">
@@ -182,7 +166,7 @@ export default function AboutComponent() {
                     asChild
                     className="w-full border-[#d08d58] text-[#d08d58] hover:bg-[#d08d58] hover:text-white"
                   >
-                    <a href="/about">Conheça nossos advogados</a>
+                    <a href="/lawyers">Conheça nossos advogados</a>
                   </Button>
                 </CardContent>
               </Card>

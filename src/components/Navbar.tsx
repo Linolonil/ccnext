@@ -17,7 +17,6 @@ export function Navbar() {
 
   const pathname = usePathname()
 
-  const isLoginOrDashboard = pathname.startsWith("/login") || pathname.startsWith("/dashboard")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +34,9 @@ export function Navbar() {
       setHasScrolled(window.scrollY > 0)
     }
 
+    // Verifica a posição do scroll ao montar o componente
+    handleScroll()
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [lastScroll])
@@ -42,14 +44,10 @@ export function Navbar() {
   const navItems = [
     { link: "Início", path: "/" },
     { link: "Serviços", path: "/services" },
-    { link: "Advogados", path: "/about" },
+    { link: "Advogados", path: "/lawyers" },
     { link: "Contatos", path: "/contacts" },
     { link: "Blog", path: "/blogs?page=1" },
   ]
-
-  if (isLoginOrDashboard) {
-    return null
-  }
 
   return (
     <div
@@ -91,7 +89,7 @@ export function Navbar() {
                   href={path}
                   className={cn(
                     "text-2xl font-medium transition-colors hover:text-[#e5e5cb]",
-                    pathname === path ? "text-[#e5e5cb] font-bold" : "",
+                    pathname === path ? "text-[#d08d58] font-bold" : "",
                   )}
                 >
                   {link}
@@ -119,7 +117,7 @@ export function Navbar() {
               href={path}
               className={cn(
                 "text-lg font-medium transition-colors hover:text-[#e5e5cb]",
-                pathname === path ? "text-[#e5e5cb] font-bold underline decoration-2 underline-offset-8" : "text-white",
+                pathname === path ? "text-[#d08d58] font-bold underline decoration-2 underline-offset-8" : "text-white",
               )}
             >
               {link}
@@ -141,4 +139,3 @@ export function Navbar() {
 }
 
 export default Navbar
-
