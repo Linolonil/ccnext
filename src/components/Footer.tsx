@@ -28,8 +28,8 @@ export default function Footer() {
               <Image
                 src="/assets/logoWhite.png"
                 alt="Carvalho & Castro Advogados"
-                width={180}
-                height={60}
+                width={5000}
+                height={500}
                 className="h-12 w-auto"
               />
             </Link>

@@ -3,7 +3,6 @@
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { UserRound, Award, ArrowRight } from "lucide-react"
 
@@ -12,7 +11,6 @@ function ImgsHero() {
     {
       id: 1,
       name: "Dr. Carvalho",
-      specialty: "Direito Civil",
       image: "/adv2.jpeg",
       experience: "4 anos de experiência",
       oab: "OAB/AM 18.565",
@@ -20,7 +18,6 @@ function ImgsHero() {
     {
       id: 2,
       name: "Dr. Castro",
-      specialty: "Direito Empresarial",
       image: "/adv1.jpeg",
       experience: "5 anos de experiência",
       oab: "OAB/AM 18.092",
@@ -50,18 +47,13 @@ function ImgsHero() {
                   <div className="overflow-hidden">
                     <Image
                       src={lawyer.image || "/placeholder.svg"}
-                      alt={`${lawyer.name} - ${lawyer.specialty}`}
+                      alt={`${lawyer.name}`}
                       className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:brightness-90"
                       width={500}
                       height={400}
                       priority
                     />
                   </div>
-
-                  {/* Specialty Badge */}
-                  <Badge className="absolute top-4 right-4 bg-[#d08d58] hover:bg-[#d08d58] text-white border-none px-3 py-1.5 shadow-lg">
-                    {lawyer.specialty}
-                  </Badge>
 
                   {/* Gradient overlay that's always visible but intensifies on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-darkBrown/90 via-darkBrown/40 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500"></div>

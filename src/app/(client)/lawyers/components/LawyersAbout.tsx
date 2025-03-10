@@ -1,19 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { LawyerCard } from "./LawyersCard";
-import { LawyerModal } from "./ModalLawyer";
-import { AnimatePresence, motion } from "framer-motion";
-import { Lawyer } from "@/app/types/LawyersTypes";
 import { lawyers } from "../../(constants)/lawyersTexts";
 import SectionDivider from "../../landpage/components/SectionDivider";
+import { motion } from "framer-motion";
 
 export default function LawyersAbout() {
-  const [selectedLawyer, setSelectedLawyer] = useState<Lawyer | null>(null);
-
-  const openModal = (lawyer: Lawyer) => setSelectedLawyer(lawyer);
-  const closeModal = () => setSelectedLawyer(null);
-
   return (
     <section
       id="advogados"
@@ -28,10 +20,10 @@ export default function LawyersAbout() {
           viewport={{ once: true }}
           className=""
         >
-        <SectionDivider
-          title="Nossa Equipe"
-          subtitle="Nossa equipe pronta para lhe atender"
-        />
+          <SectionDivider
+            title="Nossa Equipe"
+            subtitle="Nossa equipe pronta para lhe atender"
+          />
         </motion.div>
 
         {/* Grid de cards */}
@@ -40,20 +32,13 @@ export default function LawyersAbout() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-6 md:gap-8 justify-items-center"
+          className="grid grid-cols-1 gap-8 justify-items-center"
         >
           {lawyers.map((lawyer) => (
-            <LawyerCard key={lawyer.id} lawyer={lawyer} openModal={openModal} />
+            <LawyerCard key={lawyer.id} lawyer={lawyer} />
           ))}
         </motion.div>
       </div>
-
-      {/* Modal usando AnimatePresence */}
-      <AnimatePresence>
-        {selectedLawyer && (
-          <LawyerModal lawyer={selectedLawyer} closeModal={closeModal} />
-        )}
-      </AnimatePresence>
     </section>
   );
 }
