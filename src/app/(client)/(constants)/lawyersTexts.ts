@@ -1,4 +1,4 @@
-import { Lawyer } from "@/app/types/LawyersTypes";
+import { Lawyer } from "@/types/LawyersTypes";
 
 export const lawyers: Lawyer[] = [
   {

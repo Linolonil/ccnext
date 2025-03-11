@@ -1,4 +1,4 @@
-import { AboutTexts } from "@/app/types/AboutTextsTypes";
+import { AboutTexts } from "@/types/AboutTextsTypes";
 
 export const aboutTexts: AboutTexts[]  = [
     {

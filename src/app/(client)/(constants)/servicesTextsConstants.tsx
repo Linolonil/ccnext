@@ -1,4 +1,4 @@
-import { ServicesTexts } from "@/app/types/ServiceTextsTypes";
+import { ServicesTexts } from "@/types/ServiceTextsTypes";
 import { FaHandHoldingUsd, FaHome, FaUserShield } from "react-icons/fa";
 
 export const servicesTexts: ServicesTexts[] = [

@@ -1,4 +1,4 @@
-import { Lawyer } from "@/app/types/LawyersTypes";
+import { Lawyer } from "@/types/LawyersTypes";
 import { FaEnvelope, FaFacebookF, FaInstagram, FaLinkedin, FaPhone, FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";

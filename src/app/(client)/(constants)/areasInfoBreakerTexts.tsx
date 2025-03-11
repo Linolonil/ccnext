@@ -1,4 +1,4 @@
-import { AreasInfoBreaker } from "@/app/types/AreasInfoBreakerTypes";
+import { AreasInfoBreaker } from "@/types/AreasInfoBreakerTypes";
 import { FaBriefcase, FaGavel, FaUsers } from "react-icons/fa";
 
 export const areasInfoBreaker: AreasInfoBreaker[] = [

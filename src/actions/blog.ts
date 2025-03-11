@@ -2,7 +2,7 @@
 
 import connectDB from "@/lib/dbConnect"
 import Post from "@/models/Posts"
-import type { BlogPostsResponse, CategoryResult, PostResponse, TagResult } from "@/app/types/blog"
+import type { BlogPostsResponse, CategoryResult, PostResponse, TagResult } from "@/types/blog"
 
 export async function getBlogPosts({ page = 1, limit = 6, search = "", category = "", tag = "" }: BlogSearchParams): Promise<BlogPostsResponse> {
   await connectDB();
