@@ -2,6 +2,8 @@ import React, { ReactNode } from "react";
 import { Mona_Sans as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { BlogProvider } from "../context/blog-context";
+import { Sidebar } from "./components/sidebar";
+import Banner from "@/components/Banner";
 
 
 const fontSans = FontSans({
@@ -25,9 +27,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
       <main className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <BlogProvider>
-          <div className="flex min-h-screen flex-col">
+        <Banner banner="Blog" bg={"/assets/bg-4.png"} />
+
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="lg:col-span-2">
             <main className="flex-1">{children}</main>
           </div>
+          <div className="lg:col-span-1 mt-10">
+            <Sidebar />
+          </div>
+        </div>
         </BlogProvider>
       </main> 
        );

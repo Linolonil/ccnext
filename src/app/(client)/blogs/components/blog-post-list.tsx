@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Badge, Calendar, Clock, Eye } from "lucide-react";
+import { ArrowRight, Calendar, Clock, Eye } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { useBlog } from "../../context/blog-context";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { motion } from 'framer-motion';
 
 export function BlogPostList() {
   const { posts } = useBlog();
@@ -13,9 +16,9 @@ export function BlogPostList() {
     <div className="space-y-8">
       {posts.length > 0 ? (
         posts.map((post) => (
-          <Card key={post.id} className="overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
-              <div className="relative aspect-video md:aspect-square">
+          <Card key={post._id} className="overflow-hidden border-none bg-background/50 backdrop-blur-sm hover:bg-background/80 transition-all duration-300 shadow-md hover:shadow-lg">     
+                 <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] ">
+              <div className="relative aspect-video md:w-full md:h-full ">
                 <Image
                   src={post?.image[0]?.imgUrl || "/placeholder.svg"}
                   alt={post.title}
@@ -23,10 +26,12 @@ export function BlogPostList() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col md:pt-0 pt-4">
                 <CardHeader className="pb-2">
                   <div className="mb-2">
-                    <Badge>{post?.category}</Badge>
+                  <Badge >
+                    {post.category}
+                  </Badge>                  
                   </div>
                   <Link href={`/posts/${post?.slug}`} className="group">
                     <h2 className="line-clamp-2 text-2xl font-bold group-hover:text-primary group-hover:underline">
@@ -35,7 +40,7 @@ export function BlogPostList() {
                   </Link>
                 </CardHeader>
                 <CardContent className="pb-2">
-                  <p className="line-clamp-3 text-muted-foreground">{post?.description}</p>
+                  <p className="line-clamp-3 text-muted-foreground">{post?.content}</p>
                   <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center">
                       <Calendar className="mr-1 h-4 w-4" />
@@ -47,7 +52,7 @@ export function BlogPostList() {
                     </div>
                     <div className="flex items-center">
                       <Clock className="mr-1 h-4 w-4" />
-                      {post?.readTime}
+                      {post?.reading_time}
                     </div>
                     <div className="flex items-center">
                       <Eye className="mr-1 h-4 w-4" />
@@ -56,9 +61,18 @@ export function BlogPostList() {
                   </div>
                 </CardContent>
                 <CardFooter className="mt-auto">
-                  <Link href={`/posts/${post?.slug}`} className="text-primary hover:underline">
-                    Read More
-                  </Link>
+                <Button
+                      asChild
+                      variant="ghost"
+                      className="group px-0 text-primary font-medium hover:bg-transparent w-fit"
+                    >
+                      <Link href={`/blogs/posts/${post?.slug}`} className="flex items-center">
+                        Ler artigo completo
+                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                          <ArrowRight className="h-4 w-4 ml-1.5" />
+                        </motion.div>
+                      </Link>
+                    </Button>
                 </CardFooter>
               </div>
             </div>
