@@ -1,24 +1,35 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft, Calendar, Clock, Eye, Copy, Phone, Instagram } from "lucide-react"
-import { useParams } from "next/navigation"
-import { motion } from "framer-motion"
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  Eye,
+  Copy,
+  Phone,
+  Instagram,
+} from "lucide-react";
+import { useParams } from "next/navigation";
+import { motion } from "framer-motion";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { useBlog } from "@/app/(client)/context/blog-context"
-
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useBlog } from "@/app/context/blog-context";
 
 export default function PostPage() {
-  const params = useParams<{ slug: string }>()
-  const { getPostBySlug } = useBlog()
-  const post = getPostBySlug(params.slug)
+  const params = useParams<{ slug: string }>();
+  const { getPostBySlug } = useBlog();
+  const post = getPostBySlug(params.slug);
 
   // Animation variants
   const fadeIn = {
@@ -28,7 +39,7 @@ export default function PostPage() {
       y: 0,
       transition: { duration: 0.6 },
     },
-  }
+  };
 
   const stagger = {
     hidden: { opacity: 0 },
@@ -38,29 +49,27 @@ export default function PostPage() {
         staggerChildren: 0.1,
       },
     },
-  }
+  };
 
-  
   const handleShare = (platform: string, url: string) => {
-    let shareUrl = ""
-  
+    let shareUrl = "";
+
     switch (platform) {
       case "whatsapp":
-        shareUrl = `https://wa.me/?text=${encodeURIComponent(url)}`
-        break
+        shareUrl = `https://wa.me/?text=${encodeURIComponent(url)}`;
+        break;
       case "instagram":
-        navigator.clipboard.writeText(url)
-        return
+        navigator.clipboard.writeText(url);
+        return;
       case "copy":
-        navigator.clipboard.writeText(url)
-          return
+        navigator.clipboard.writeText(url);
+        return;
     }
-  
+
     if (platform === "whatsapp") {
-      window.open(shareUrl, "_blank", "noopener,noreferrer")
+      window.open(shareUrl, "_blank", "noopener,noreferrer");
     }
-  }
-  
+  };
 
   // If post not found
   if (!post) {
@@ -99,8 +108,8 @@ export default function PostPage() {
           </motion.div>
           <h1 className="mb-4 text-3xl font-bold">Post Not Found</h1>
           <p className="text-muted-foreground max-w-md mx-auto mb-6">
-            The post you're looking for doesn't exist or has been removed. Please check the URL or try browsing our
-            other articles.
+            The post youre looking for doesnt exist or has been removed.
+            Please check the URL or try browsing our other articles.
           </p>
           <Button asChild>
             <Link href="/blogs" className="inline-flex items-center">
@@ -110,14 +119,22 @@ export default function PostPage() {
           </Button>
         </motion.div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
-      <motion.div initial="hidden" animate={"visible" } variants={stagger} className="mb-8">
+      <motion.div
+        initial="hidden"
+        animate={"visible"}
+        variants={stagger}
+        className="mb-8"
+      >
         <motion.div variants={fadeIn}>
-          <Link href="/blogs" className="inline-flex items-center text-sm font-medium text-primary hover:underline">
+          <Link
+            href="/blogs"
+            className="inline-flex items-center text-sm font-medium text-primary hover:underline"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Voltar para todos os posts
           </Link>
@@ -133,14 +150,21 @@ export default function PostPage() {
         >
           <article className="prose prose-slate max-w-none dark:prose-invert">
             <motion.div variants={fadeIn} className="mb-8">
-              <Badge className="mb-4 bg-primary hover:bg-primary/90 text-primary-foreground">{post.category}</Badge>
-              <h1 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">{post.title}</h1>
+              <Badge className="mb-4 bg-primary hover:bg-primary/90 text-primary-foreground">
+                {post.category}
+              </Badge>
+              <h1 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+                {post.title}
+              </h1>
               <p className="text-lg text-muted-foreground">
                 {post.content.substring(0, 150).replace(/<[^>]*>/g, "")}...
               </p>
             </motion.div>
 
-            <motion.div variants={fadeIn} className="relative mb-8 aspect-video overflow-hidden rounded-xl">
+            <motion.div
+              variants={fadeIn}
+              className="relative mb-8 aspect-video overflow-hidden rounded-xl"
+            >
               <Image
                 src={post.image[0]?.imgUrl || "/placeholder.svg"}
                 alt={post.title}
@@ -150,11 +174,19 @@ export default function PostPage() {
               />
             </motion.div>
 
-            <motion.div variants={fadeIn} className="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <motion.div
+              variants={fadeIn}
+              className="flex flex-wrap items-center justify-between gap-4 mb-8"
+            >
               {post.author && (
                 <div className="flex items-center gap-4">
                   <Avatar>
-                    <AvatarImage src={post.authorPic || "/placeholder.svg?height=40&width=40"} alt={post.author} />
+                    <AvatarImage
+                      src={
+                        post.authorPic || "/placeholder.svg?height=40&width=40"
+                      }
+                      alt={post.author}
+                    />
                     <AvatarFallback>{post.author.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
@@ -183,7 +215,11 @@ export default function PostPage() {
               </div>
             </motion.div>
 
-            <motion.div variants={fadeIn} className="content mb-8" dangerouslySetInnerHTML={{ __html: post.content }} />
+            <motion.div
+              variants={fadeIn}
+              className="content mb-8"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
 
             <motion.div variants={fadeIn} className="mb-8">
               <h3 className="text-xl font-semibold mb-4">Tags</h3>
@@ -199,71 +235,83 @@ export default function PostPage() {
             <motion.div variants={fadeIn} className="mt-12">
               <Separator className="my-8" />
               <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-  <h3 className="text-lg font-semibold mb-4">Compartilhe esse Artigo</h3>
-  <div className="flex gap-2">
-    {/* Botão do WhatsApp */}
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full"
-            onClick={() => handleShare("whatsapp", window.location.href)}
-          >
-            <Phone className="h-4 w-4" />
-            <span className="sr-only">Share on WhatsApp</span>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>Compartilhar no WhatsApp</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Compartilhe esse Artigo
+                  </h3>
+                  <div className="flex gap-2">
+                    {/* Botão do WhatsApp */}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="rounded-full"
+                            onClick={() =>
+                              handleShare("whatsapp", window.location.href)
+                            }
+                          >
+                            <Phone className="h-4 w-4" />
+                            <span className="sr-only">Share on WhatsApp</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Compartilhar no WhatsApp
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
 
-    {/* Botão do Instagram (Copia o link) */}
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full"
-            onClick={() => handleShare("instagram", window.location.href)}
-          >
-            <Instagram className="h-4 w-4" />
-            <span className="sr-only">Copy link for Instagram</span>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>Copiar link para Instagram</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+                    {/* Botão do Instagram (Copia o link) */}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="rounded-full"
+                            onClick={() =>
+                              handleShare("instagram", window.location.href)
+                            }
+                          >
+                            <Instagram className="h-4 w-4" />
+                            <span className="sr-only">
+                              Copy link for Instagram
+                            </span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Copiar link para Instagram
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
 
-    {/* Botão de Copiar Link */}
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full"
-            onClick={() => handleShare("copy", window.location.href)}
-          >
-            <Copy className="h-4 w-4" />
-            <span className="sr-only">Copy link</span>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>Copiar link</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  </div>
-</div>
-
-
+                    {/* Botão de Copiar Link */}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="rounded-full"
+                            onClick={() =>
+                              handleShare("copy", window.location.href)
+                            }
+                          >
+                            <Copy className="h-4 w-4" />
+                            <span className="sr-only">Copy link</span>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Copiar link</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </article>
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

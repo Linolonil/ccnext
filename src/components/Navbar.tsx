@@ -46,7 +46,7 @@ export function Navbar() {
     { link: "Serviços", path: "/services" },
     { link: "Advogados", path: "/lawyers" },
     { link: "Contatos", path: "/contacts" },
-    { link: "Blog", path: "/blogs?page=1" },
+    { link: "Blog", path: "/blogs" },
   ]
 
   return (

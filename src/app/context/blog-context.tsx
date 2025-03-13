@@ -1,7 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState, ReactNode, useMemo } from "react";
 
-// Definição da interface do post (baseada no modelo do Mongoose)
 export interface Post {
   _id: string; 
   title: string;
@@ -24,7 +23,6 @@ export interface Category {
   name: string;
   count: number;
 }
-// Definição da estrutura do contexto do blog
 interface BlogContextType {
   posts: Post[];
   setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
@@ -34,6 +32,7 @@ interface BlogContextType {
   setSearchQuery: (query: string) => void;
   selectedCategories: string[];
   toggleCategory: (category: string) => void;
+  handleSearchQuery: (query: string) => void;
   getPostBySlug: (slug: string) => Post | undefined;
   filteredPosts: Post[]; 
   categories: Category[];
@@ -122,6 +121,11 @@ export const BlogProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
+const handleSearchQuery = (query: string) => {
+  setSearchQuery(query);
+};
+
+
   // Extrai categorias únicas a partir dos posts
   const categories = useMemo(() => {
     const categoryCount = posts.reduce((acc, post) => {
@@ -149,6 +153,8 @@ const getPostBySlug = (slug: string): Post | undefined => {
     );
   };
 
+  console.log(selectedCategories)
+
   // Filtra os posts com base na busca e nas categorias selecionadas
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -162,6 +168,8 @@ const getPostBySlug = (slug: string): Post | undefined => {
     });
   }, [posts, searchQuery, selectedCategories]);
 
+  console.log(filteredPosts)
+
   // Valor do contexto
   const contextValue: BlogContextType = {
     posts,
@@ -169,6 +177,7 @@ const getPostBySlug = (slug: string): Post | undefined => {
     getPostBySlug,
     loading,
     setLoading,
+    handleSearchQuery,
     searchQuery,
     setSearchQuery,
     selectedCategories,

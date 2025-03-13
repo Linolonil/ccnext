@@ -1,32 +1,35 @@
-import React, { FormEvent } from "react"
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 import { Search } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import { useBlog } from "../../../context/blog-context";
 
-interface SearchCardProps {
-  searchInput: string
-  setSearchInput: React.Dispatch<React.SetStateAction<string>>
-  handleSearch: (e: FormEvent) => void
-}
+// interface SearchCardProps {
+//   searchInput: string;
+//   setSearchInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+// }
+export function SearchCard(){
+  const { setSearchQuery } = useBlog();
 
-export const SearchCard: React.FC<SearchCardProps> = ({ searchInput, setSearchInput, handleSearch }) => {
+  const [searchInput, setSearchInput] = useState<string>("");
+
+
+    // Update search input and context query as the user types
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchInput(e.target.value);
+      setSearchQuery(e.target.value);
+    };
   return (
     <Card>
       <CardContent>
-        <form onSubmit={handleSearch} className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Buscar artigos..."
             className="pl-8"
             value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          <Button type="submit" className="sr-only">
-            Pesquisar
-          </Button>
-        </form>
+            onChange={handleSearchChange}
+            />
       </CardContent>
     </Card>
   )

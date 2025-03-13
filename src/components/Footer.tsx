@@ -88,7 +88,7 @@ export default function Footer() {
                 { name: "Início", href: "/" },
                 { name: "Serviços", href: "/services" },
                 { name: "Advogados", href: "/lawyers" },
-                { name: "Blog", href: "/blogs?page=1" },
+                { name: "Blog", href: "/blogs" },
                 { name: "Contato", href: "/contacts" },
                 { name: "Política de Privacidade", href: "/privacy" },
               ].map((link, index) => (
