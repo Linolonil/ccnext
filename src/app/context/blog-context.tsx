@@ -153,8 +153,7 @@ const getPostBySlug = (slug: string): Post | undefined => {
     );
   };
 
-  console.log(selectedCategories)
-
+  
   // Filtra os posts com base na busca e nas categorias selecionadas
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -162,14 +161,17 @@ const getPostBySlug = (slug: string): Post | undefined => {
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      
       const matchesCategory =
-        selectedCategories.length === 0 || selectedCategories.includes(post.category);
+        selectedCategories.length === 0 ||
+        selectedCategories.some(
+          (selectedCategory) => selectedCategory.toLowerCase() === post.category.toLowerCase()
+        );
+      
       return matchesSearch && matchesCategory;
     });
   }, [posts, searchQuery, selectedCategories]);
-
-  console.log(filteredPosts)
-
+  
   // Valor do contexto
   const contextValue: BlogContextType = {
     posts,
