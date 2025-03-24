@@ -3,15 +3,14 @@
 import { useBlog } from "@/app/context/blog-context";
 import { useState } from "react";
 import { BlogPostCard } from "./BlogPostCard";
-import { Pagination } from "./Pagination";
 import { Badge } from '@/components/ui/badge';
+import { Pagination } from "./pagination";
 
 export function BlogPostList() {
   const { posts, filteredPosts, selectedCategories,toggleCategory, searchQuery } = useBlog();
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
-  console.log(posts)
 
   // Se houver uma busca ativa, usa os resultados filtrados, senão usa todos os posts
   const displayedPosts = searchQuery || selectedCategories.length > 0 ? filteredPosts : posts;
