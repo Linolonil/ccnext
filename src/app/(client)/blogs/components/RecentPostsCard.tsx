@@ -1,12 +1,12 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Post } from "../../../context/blog-context"
 import { Eye } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { PostTypes } from "@/types"
 
 interface RecentPostsCardProps {
-  recentPosts: Post[]
+  recentPosts: PostTypes[]
 }
 
 export const RecentPostsCard: React.FC<RecentPostsCardProps> = ({ recentPosts }) => {
@@ -22,7 +22,7 @@ export const RecentPostsCard: React.FC<RecentPostsCardProps> = ({ recentPosts })
               <div className="flex gap-4">
                 <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md">
                   <Image
-                    src={post.image[0]?.imgUrl || "/placeholder.svg"}
+                    src={post.coverImage?.url || "/placeholder.svg"}
                     alt={post.title}
                     fill
                     className="object-cover"
@@ -33,7 +33,7 @@ export const RecentPostsCard: React.FC<RecentPostsCardProps> = ({ recentPosts })
                     {post.title}
                   </Link>
                   <span className="text-sm text-muted-foreground">
-                    {new Date(post.published_date).toLocaleDateString("en-US", {
+                    {new Date(post.createdAt).toLocaleDateString("pt-BR", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",

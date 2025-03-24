@@ -35,7 +35,7 @@ export function CommentSection() {
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState("")
 
-  const handleSubmitComment = (e) => {
+  const handleSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!newComment.trim()) return
 

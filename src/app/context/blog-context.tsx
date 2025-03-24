@@ -1,31 +1,16 @@
 "use client";
-import React, { createContext, useContext, useState, ReactNode, useMemo } from "react";
-
-export interface Post {
-  _id: string; 
-  title: string;
-  slug: string;
-  image: { imgUrl: string; public_id: string }[];
-  isAvailable: boolean;
-  category: string;
-  author: string;
-  authorPic?: string;
-  published_date: Date;
-  reading_time: string;
-  content: string;
-  tags: string[];
-  views: number;
-  createdAt?: Date; // Adicionado pelo timestamps
-  updatedAt?: Date; // Adicionado pelo timestamps
-}
+import { PostTypes } from "@/types";
+import React, { createContext, useContext, useState, ReactNode, useMemo, useEffect } from "react";
+import { fetchPosts } from "../actions/posts";
 
 export interface Category {
   name: string;
   count: number;
 }
+
 interface BlogContextType {
-  posts: Post[];
-  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
+  posts: PostTypes[];
+  setPosts: React.Dispatch<React.SetStateAction<PostTypes[]>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   searchQuery: string;
@@ -33,100 +18,50 @@ interface BlogContextType {
   selectedCategories: string[];
   toggleCategory: (category: string) => void;
   handleSearchQuery: (query: string) => void;
-  getPostBySlug: (slug: string) => Post | undefined;
-  filteredPosts: Post[]; 
+  getPostBySlug: (slug: string) => PostTypes | undefined;
+  filteredPosts: PostTypes[];
   categories: Category[];
+  refreshPosts: () => Promise<void>; // Adicionado
 }
 
-
-// dados mockados
-export const postsMock: Post[] = [
-  {
-    _id: "1",
-    title: "O Futuro da Inteligência Artificial na Advocacia",
-    slug: "futuro-ia-advocacia",
-    image: [{ imgUrl: "/assets/bg-4.png", public_id: "ai-law-1" }],
-    isAvailable: true,
-    category: "Tecnologia Jurídica",
-    author: "Dr. Sérgio Cunha",
-    authorPic: "https://source.unsplash.com/100x100/?man,lawyer",
-    published_date: new Date("2024-06-15"),
-    reading_time: "5 min",
-    content: "A inteligência artificial está transformando o setor jurídico, tornando processos mais rápidos e eficientes. Neste artigo, exploramos como a IA pode auxiliar advogados na pesquisa de jurisprudência, automação de contratos e análise de casos.",
-    tags: ["IA", "Advocacia", "Automação Jurídica"],
-    views: 1200,
-    createdAt: new Date("2024-06-10"),
-    updatedAt: new Date("2024-06-12")
-  },
-  {
-    _id: "2",
-    title: "Entenda Seus Direitos Trabalhistas em 2024",
-    slug: "direitos-trabalhistas-2024",
-    image: [{ imgUrl: "/assets/bg-4.png", public_id: "labor-law-1" }],
-    isAvailable: true,
-    category: "Direito do Trabalho",
-    author: "Dra. Mariana Serrão",
-    authorPic: "https://source.unsplash.com/100x100/?woman,lawyer",
-    published_date: new Date("2024-07-01"),
-    reading_time: "7 min",
-    content: "O cenário dos direitos trabalhistas muda constantemente. Neste artigo, abordamos as principais atualizações para 2024, incluindo mudanças na CLT e direitos dos trabalhadores autônomos.",
-    tags: ["Trabalho", "Direitos", "CLT"],
-    views: 950,
-    createdAt: new Date("2024-06-25"),
-    updatedAt: new Date("2024-06-27")
-  },
-  {
-    _id: "3",
-    title: "Como Funciona a Ação Contra Cobrança Indevida de Bancos?",
-    slug: "acao-contra-cobranca-bancos",
-    image: [{ imgUrl: "/assets/bg-4.png", public_id: "bank-law-1" }],
-    isAvailable: true,
-    category: "Direito do Consumidor",
-    author: "Dr. Eduardo Lima",
-    authorPic: "https://source.unsplash.com/100x100/?man,bank",
-    published_date: new Date("2024-07-10"),
-    reading_time: "6 min",
-    content: "Muitas pessoas são vítimas de cobranças indevidas por bancos e financeiras. Saiba como agir judicialmente para recuperar valores pagos indevidamente e evitar novas cobranças.",
-    tags: ["Bancos", "Cobrança", "Direitos do Consumidor"],
-    views: 1100,
-    createdAt: new Date("2024-07-05"),
-    updatedAt: new Date("2024-07-07")
-  },
-  {
-    _id: "4",
-    title: "Como Funciona a Ação Contra Cobrança Indevida de Bancos?",
-    slug: "acao-contra-cobranca-bancos",
-    image: [{ imgUrl: "/assets/bg-4.png", public_id: "bank-law-1" }],
-    isAvailable: true,
-    category: "Direito do Consumidor",
-    author: "Dr. Eduardo Lima",
-    authorPic: "https://source.unsplash.com/100x100/?man,bank",
-    published_date: new Date("2024-07-10"),
-    reading_time: "6 min",
-    content: "Muitas pessoas são vítimas de cobranças indevidas por bancos e financeiras. Saiba como agir judicialmente para recuperar valores pagos indevidamente e evitar novas cobranças.",
-    tags: ["Bancos", "Cobrança", "Direitos do Consumidor"],
-    views: 1100,
-    createdAt: new Date("2024-07-05"),
-    updatedAt: new Date("2024-07-07")
-  }
-];
-
-// Criação do contexto com um valor inicial indefinido
 const BlogContext = createContext<BlogContextType | undefined>(undefined);
 
-// Componente Provider para envolver os componentes que precisam acessar o contexto
-export const BlogProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [posts, setPosts] = useState<Post[]>(postsMock);
+interface BlogProviderProps {
+  children: ReactNode;
+  initialPosts?: PostTypes[]; // Adicionado para SSR
+}
+
+export const BlogProvider: React.FC<BlogProviderProps> = ({ 
+  children, 
+  initialPosts = [] 
+}) => {
+  const [posts, setPosts] = useState<PostTypes[]>(initialPosts);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-const handleSearchQuery = (query: string) => {
-  setSearchQuery(query);
-};
+  const handleSearchQuery = (query: string) => {
+    setSearchQuery(query);
+  };
 
+  const refreshPosts = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchPosts();
+      setPosts(data);
+    } catch (error) {
+      console.error('Failed to refresh posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Extrai categorias únicas a partir dos posts
+  useEffect(() => {
+    if (posts.length === 0) {
+      refreshPosts();
+    }
+  }, [posts.length]); 
+
   const categories = useMemo(() => {
     const categoryCount = posts.reduce((acc, post) => {
       acc[post.category] = (acc[post.category] || 0) + 1;
@@ -139,28 +74,26 @@ const handleSearchQuery = (query: string) => {
     }));
   }, [posts]);
 
-  // Função para buscar um post pelo slug
-const getPostBySlug = (slug: string): Post | undefined => {
-  return postsMock.find((post) => post.slug === slug);
-};
+  const getPostBySlug = (slug: string): PostTypes | undefined => {
+    return posts.find((post) => post.slug === slug);
+  };
 
-  // Função para alternar a seleção de uma categoria
   const toggleCategory = (category: string) => {
     setSelectedCategories((prevCategories) =>
       prevCategories.includes(category)
-        ? prevCategories.filter((cat) => cat !== category) // Remove a categoria se já estiver selecionada
-        : [...prevCategories, category] // Adiciona a categoria se não estiver selecionada
+        ? prevCategories.filter((cat) => cat !== category)
+        : [...prevCategories, category]
     );
   };
 
-  
-  // Filtra os posts com base na busca e nas categorias selecionadas
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
       const matchesSearch =
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        (post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (post.tags && post.tags.some((tag) => 
+          tag.toLowerCase().includes(searchQuery.toLowerCase())
+        ));
       
       const matchesCategory =
         selectedCategories.length === 0 ||
@@ -172,20 +105,20 @@ const getPostBySlug = (slug: string): Post | undefined => {
     });
   }, [posts, searchQuery, selectedCategories]);
   
-  // Valor do contexto
   const contextValue: BlogContextType = {
     posts,
     setPosts,
-    getPostBySlug,
     loading,
     setLoading,
-    handleSearchQuery,
     searchQuery,
-    setSearchQuery,
+    setSearchQuery: handleSearchQuery,
     selectedCategories,
     toggleCategory,
+    handleSearchQuery,
+    getPostBySlug,
     filteredPosts,
     categories,
+    refreshPosts, // Adicionado ao contexto
   };
 
   return (
@@ -195,8 +128,6 @@ const getPostBySlug = (slug: string): Post | undefined => {
   );
 };
 
-
-// Hook customizado para acessar o contexto
 export const useBlog = (): BlogContextType => {
   const context = useContext(BlogContext);
   if (!context) {

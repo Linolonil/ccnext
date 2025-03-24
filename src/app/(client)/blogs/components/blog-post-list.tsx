@@ -11,7 +11,7 @@ export function BlogPostList() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
-  
+  console.log(posts)
 
   // Se houver uma busca ativa, usa os resultados filtrados, senão usa todos os posts
   const displayedPosts = searchQuery || selectedCategories.length > 0 ? filteredPosts : posts;

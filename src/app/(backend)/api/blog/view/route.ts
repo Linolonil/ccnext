@@ -1,5 +1,5 @@
-import connectDB from "@/lib/dbConnect"
-import Post from "@/models/Posts"
+import { connectDB } from "@/lib/dbConnect"
+import Post from "@/models/Post"
 import { type NextRequest, NextResponse } from "next/server"
 
 

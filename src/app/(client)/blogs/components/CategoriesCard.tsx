@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tag } from "lucide-react"
 
 interface Category {
   name: string
@@ -17,10 +18,14 @@ interface CategoriesCardProps {
 export const CategoriesCard: React.FC<CategoriesCardProps> = ({ categories, toggleCategory, selectedCategories }) => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Categorias</CardTitle>
-      </CardHeader>
-      <CardContent>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center text-lg font-semibold">
+            <Tag className="mr-2 h-5 w-5" />
+            Categorias
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+         
         <ul className="space-y-2">
           {categories.map((category) => (
             <li key={category.name} className="flex justify-between">
@@ -32,12 +37,13 @@ export const CategoriesCard: React.FC<CategoriesCardProps> = ({ categories, togg
               >
                 {category.name}
               </button>
-              <span className="text-sm text-muted-foreground">({category.count})</span>
-            </li>
+              <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-bold">{category.count}</span>            </li>
           ))}
         </ul>
-      </CardContent>
-    </Card>
+
+        </CardContent>
+      </Card>
   )
 }
+
 

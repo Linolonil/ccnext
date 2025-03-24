@@ -8,9 +8,9 @@ const TypingAnimation = () => {
   const [loopNum, setLoopNum] = useState(0)
   const [typingSpeed, setTypingSpeed] = useState(150)
 
-  const phrases = ["Inovação", "Compromisso", "Excelência"];
-
+  
   useEffect(() => {
+    const phrases = ["Inovação", "Compromisso", "Excelência"];
     const handleTyping = () => {
       const i = loopNum % phrases.length
       const fullText = phrases[i]
@@ -29,7 +29,7 @@ const TypingAnimation = () => {
 
     const timer = setTimeout(handleTyping, typingSpeed)
     return () => clearTimeout(timer)
-  }, [text, isDeleting, loopNum, typingSpeed, phrases])
+  }, [text, isDeleting, loopNum, typingSpeed])
 
   return (
     <div className="h-[30px] md:h-[50px] mb-2 md:mt-0 mt-10">

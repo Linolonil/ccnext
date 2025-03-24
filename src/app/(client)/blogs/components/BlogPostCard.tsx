@@ -6,15 +6,15 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
-import { Post } from "@/app/context/blog-context"
+import { PostTypes } from "@/types"
 
-export function BlogPostCard({ post }: { post: Post }) {
+export function BlogPostCard({ post }: { post: PostTypes }) {
   return (
     <Card className="overflow-hidden border-none bg-background/50 backdrop-blur-sm hover:bg-background/80 transition-all duration-300 shadow-md hover:shadow-lg">
       <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
         <div className="relative aspect-video md:w-full md:h-full">
           <Image
-            src={post?.image[0]?.imgUrl || "/placeholder.svg"}
+            src={post?.coverImage?.url || "/placeholder.svg"}
             alt={post.title}
             fill
             className="object-cover"
@@ -32,11 +32,11 @@ export function BlogPostCard({ post }: { post: Post }) {
             </Link>
           </CardHeader>
           <CardContent className="pb-2">
-            <p className="line-clamp-3 text-muted-foreground">{post?.content}</p>
+            <p className="line-clamp-2 text-muted-foreground" title={post?.excerpt}>{post?.excerpt}</p>
             <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center">
                 <Calendar className="mr-1 h-4 w-4" />
-                {new Date(post?.published_date).toLocaleDateString("en-US", {
+                {new Date(post?.createdAt).toLocaleDateString("pt-BR", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
