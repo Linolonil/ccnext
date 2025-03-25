@@ -1,6 +1,5 @@
 // types/index.ts
 import { Types } from "mongoose";
-import { type ReadonlyURLSearchParams } from 'next/navigation';
 
 // Tipos para Posts
 export interface PostTypes {
@@ -60,9 +59,7 @@ export type AppSearchParams = PaginationParams & FilterParams & SortParams & {
 };
 
 // Tipo para as props das páginas
-export interface PageProps {
-  searchParams: AppSearchParams | ReadonlyURLSearchParams;
-}
+
 
 // Tipo para o retorno da API de posts
 export interface PostsResponse {

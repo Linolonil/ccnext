@@ -3,25 +3,26 @@ import { BlogPostCard } from "./components/BlogPostCard"
 import Pagination from "./components/pagination"
 import Link from 'next/link'
 import { X } from 'lucide-react'
-import { PageProps, PostTypes } from "@/types";
+import { AppSearchParams, PostTypes } from "@/types";
+
+export interface PageProps {
+  searchParams: Promise<AppSearchParams>;
+}
 
 export default async function Home({ searchParams }: PageProps) {
  
-  const params = new URLSearchParams(
-    searchParams instanceof URLSearchParams 
-      ? searchParams.toString() 
-      : new URLSearchParams(searchParams as Record<string, string>).toString()
-  );
-  
-  const page = Number(params.get('page')) || 1;
-  const category = params.get('category') || undefined;
-  const search = params.get('search') || undefined;
+  const resolvedParams = await searchParams;
 
+  const page = Number(resolvedParams.page) || 1;
+  const category = Array.isArray(resolvedParams.category) 
+    ? resolvedParams.category[0] 
+    : resolvedParams.category;
+  const search = Array.isArray(resolvedParams.search) 
+    ? resolvedParams.search[0] 
+    : resolvedParams.search;
+    
   // Constrói a URL da API
   const apiUrl = new URL(`${process.env.serverUrl}/api/posts`)
-  apiUrl.searchParams.set('page', page.toString())
-  if (category) apiUrl.searchParams.set('category', category)
-  if (search) apiUrl.searchParams.set('search', search)
 
   const response = await fetch(apiUrl.toString(), {
     next: {
