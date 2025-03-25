@@ -1,8 +1,7 @@
-"use client"
-
-import type React from "react"
+// app/components/categories-card.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tag } from "lucide-react"
+import Link from "next/link"
 
 interface Category {
   name: string
@@ -11,39 +10,34 @@ interface Category {
 
 interface CategoriesCardProps {
   categories: Category[]
-  selectedCategories: string[]
-  toggleCategory: (category: string) => void
 }
 
-export const CategoriesCard: React.FC<CategoriesCardProps> = ({ categories, toggleCategory, selectedCategories }) => {
+export function CategoriesCard({ categories }: CategoriesCardProps) {
   return (
     <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center text-lg font-semibold">
-            <Tag className="mr-2 h-5 w-5" />
-            Categorias
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-         
-        <ul className="space-y-2">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Tag className="h-5 w-5" />
+          Categorias
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
           {categories.map((category) => (
-            <li key={category.name} className="flex justify-between">
-              <button
-                onClick={() => toggleCategory(category.name)}
-                className={`text-left hover:text-primary hover:underline cursor-pointer ${
-                  selectedCategories.includes(category.name) ? "text-primary font-medium" : "text-muted-foreground"
-                }`}
+            <div key={category.name} className="flex items-center justify-between">
+              <Link
+                href={`/blogs?category=${encodeURIComponent(category.name)}`}
+                className="text-sm hover:text-primary hover:underline"
               >
                 {category.name}
-              </button>
-              <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-bold">{category.count}</span>            </li>
+              </Link>
+              <span className="text-xs font-medium bg-muted rounded-full px-2 py-1">
+                {category.count}
+              </span>
+            </div>
           ))}
-        </ul>
-
-        </CardContent>
-      </Card>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
-
-

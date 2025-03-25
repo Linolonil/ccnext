@@ -9,6 +9,7 @@ import { motion } from "framer-motion"
 import { PostTypes } from "@/types"
 
 export function BlogPostCard({ post }: { post: PostTypes }) {
+  
   return (
     <Card className="overflow-hidden border-none bg-background/50 backdrop-blur-sm hover:bg-background/80 transition-all duration-300 shadow-md hover:shadow-lg">
       <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">

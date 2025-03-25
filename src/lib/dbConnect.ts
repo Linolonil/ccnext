@@ -10,7 +10,7 @@ export const connectDB = async () => {
   try {
     // Verifica se já existe uma conexão ativa
     if (mongoose.connection.readyState === 1) {
-      console.log("Já conectado ao MongoDB.");
+      console.log("*-*-*");
       return true;
     }
 

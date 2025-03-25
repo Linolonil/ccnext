@@ -18,7 +18,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   if (!post) {
     return (
-      <div className="container mx-auto px-4 py-16 md:py-24">
+      <div className="container mx-auto ">
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
           <div className="mb-6">
             <svg
@@ -52,7 +52,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
+    <div className="container mx-auto">
       <div className="mb-8">
         <Link
           href="/blogs"

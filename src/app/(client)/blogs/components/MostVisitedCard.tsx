@@ -1,23 +1,23 @@
-// app/components/recent-posts-card.tsx
+// app/components/most-visited-card.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import Image from "next/image"
-import { BadgePlus, Calendar, Eye } from "lucide-react"
+import { Calendar, Eye, Pointer } from "lucide-react"
 import { PostTypes } from "@/types"
 
-interface RecentPostsCardProps {
-  recentPosts: PostTypes[]
+interface MostVisitedCardProps {
+  posts: PostTypes[]
 }
 
-export function RecentPostsCard({ recentPosts }: RecentPostsCardProps) {
+export function MostVisitedCard({ posts }: MostVisitedCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2"><BadgePlus className="size-5" />Posts Recentes</CardTitle>
+        <CardTitle className="flex items-center gap-2"><Pointer className="size-5" />Mais Visitados</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {recentPosts.map((post) => (
+          {posts.map((post) => (
             <div key={post._id} className="flex gap-4">
               <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md">
                 <Image
@@ -30,7 +30,7 @@ export function RecentPostsCard({ recentPosts }: RecentPostsCardProps) {
               </div>
               <div className="flex flex-col">
                 <Link 
-                  href={`/blogs/posts/${post.slug}`}
+                  href={`/blogs/posts/${post.slug}`} 
                   className="font-medium hover:text-primary hover:underline line-clamp-2"
                 >
                   {post.title}
