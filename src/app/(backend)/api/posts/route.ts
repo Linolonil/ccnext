@@ -1,4 +1,3 @@
-// app/api/posts/route.ts
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/dbConnect';
 import Post from '@/models/Post';
@@ -59,10 +58,10 @@ export async function GET(request: Request) {
 
     // Buscar posts
     const posts = await Post.find(filter)
-      .sort(sortOption)
-      .skip(skip)
-      .limit(limit)
-      .lean<PostDocument[]>();
+    .sort(sortOption)
+    .skip(skip)
+    .limit(limit)
+    .lean<PostDocument[]>();
 
     // Contar total de posts
     const total = await Post.countDocuments(filter);

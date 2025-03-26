@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { X } from 'lucide-react'
 import { AppSearchParams, PostTypes } from "@/types";
 
+
 export interface PageProps {
   searchParams: Promise<AppSearchParams>;
 }
@@ -20,39 +21,46 @@ export default async function Home({ searchParams }: PageProps) {
   const search = Array.isArray(resolvedParams.search) 
     ? resolvedParams.search[0] 
     : resolvedParams.search;
+
     
   // Constrói a URL da API
-  const apiUrl = new URL(`${process.env.serverUrl}/api/posts`)
+  const { serverUrl } = process.env;
+  const apiUrl = new URL(`${serverUrl}/api/posts`);
+  
+  // Adiciona parâmetros de consulta
+  apiUrl.searchParams.set('page', page.toString());
+  if (category) apiUrl.searchParams.set('category', category);
+  if (search) apiUrl.searchParams.set('search', search);
 
   const response = await fetch(apiUrl.toString(), {
     next: {
-      tags: ['posts'],
-      revalidate: 3600 // Revalida a cada hora
+      tags: [
+        'posts',
+        `page-${page}`,
+        ...(category ? [`category-${category}`] : []),
+        ...(search ? [`search-${search}`] : [])
+      ],
+      revalidate: 3600
     }
-  })
-
+  });
+  
   if (!response.ok) {
     throw new Error('Failed to fetch posts')
   }
-
+  
   const { data, pagination } = await response.json()
 
-  // Função para construir URL sem um parâmetro específico
- // Função corrigida para construir URL sem um parâmetro específico
 const buildUrlWithoutParam = (paramToRemove: 'category' | 'search' | 'page') => {
   const params = new URLSearchParams();
   
-  // Adiciona page se não for o parâmetro a ser removido E se page > 1
   if (paramToRemove !== 'page' && page > 1) {
     params.set('page', page.toString());
   }
   
-  // Adiciona category se não for o parâmetro a ser removido E se category existir
   if (paramToRemove !== 'category' && category) {
     params.set('category', category);
   }
   
-  // Adiciona search se não for o parâmetro a ser removido E se search existir
   if (paramToRemove !== 'search' && search) {
     params.set('search', search);
   }
@@ -61,7 +69,9 @@ const buildUrlWithoutParam = (paramToRemove: 'category' | 'search' | 'page') => 
 };
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col min-h-full ">
+    {/* Cabeçalho e conteúdo principal */}
+    <div className="flex-grow space-y-8">
       {/* Cabeçalho */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Blog de Insights Jurídicos</h1>
@@ -69,7 +79,7 @@ const buildUrlWithoutParam = (paramToRemove: 'category' | 'search' | 'page') => 
           Análises especializadas e recursos de nossos profissionais do direito
         </p>
       </div>
-
+  
       {/* Filtros ativos */}
       {(category || search) && (
         <div className="bg-accent p-4 rounded-lg">
@@ -95,7 +105,7 @@ const buildUrlWithoutParam = (paramToRemove: 'category' | 'search' | 'page') => 
           </p>
         </div>
       )}
-
+  
       {/* Lista de posts */}
       <div className="grid gap-6">
         {data.length > 0 ? (
@@ -108,8 +118,10 @@ const buildUrlWithoutParam = (paramToRemove: 'category' | 'search' | 'page') => 
           </div>
         )}
       </div>
-
-      {/* Paginação */}
+    </div>
+  
+    {/* Paginação (sempre no final) */}
+    <div className="mt-auto py-8">
       {pagination.totalPages > 1 && (
         <Pagination 
           pagination={pagination}
@@ -118,5 +130,6 @@ const buildUrlWithoutParam = (paramToRemove: 'category' | 'search' | 'page') => 
         />
       )}
     </div>
+  </div>
   )
 }

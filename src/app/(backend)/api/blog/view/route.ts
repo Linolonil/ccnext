@@ -1,30 +1,30 @@
-import { connectDB } from "@/lib/dbConnect"
-import Post from "@/models/Post"
-import { type NextRequest, NextResponse } from "next/server"
-
+import { connectDB } from "@/lib/dbConnect";
+import Post from "@/models/Post";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { slug } = body
+    const { slug } = await request.json();
 
-    if (!slug) {
-      return NextResponse.json({ error: "Slug is required" }, { status: 400 })
+    if (!slug || typeof slug !== 'string') {
+      return new NextResponse(null, { status: 400 }); // Resposta vazia para erros
     }
 
-    await connectDB()
+    await connectDB();
 
-    // Find post and increment view count
-    const post = await Post.findOneAndUpdate({ slug }, { $inc: { views: 1 } }, { new: true })
+    const result = await Post.updateOne(
+      { slug },
+      { $inc: { views: 1 } }
+    );
 
-    if (!post) {
-      return NextResponse.json({ error: "Post not found" }, { status: 404 })
+    if (result.matchedCount === 0) {
+      return new NextResponse(null, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, views: post.views })
+    return new NextResponse(null, { status: 204 }); // 204 No Content para sucesso
+
   } catch (error) {
-    console.error("Error incrementing view count:", error)
-    return NextResponse.json({ error: "Failed to increment view count" }, { status: 500 })
+    console.error("Erro ao incrementar visualizações:", error);
+    return new NextResponse(null, { status: 500 });
   }
 }
-

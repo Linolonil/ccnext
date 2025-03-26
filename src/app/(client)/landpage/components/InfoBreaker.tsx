@@ -14,9 +14,6 @@ import { areasInfoBreaker } from "../../(constants)/areasInfoBreakerTexts"
 // This would normally be imported from your data file
 const whatsappBaseUrl = "https://wa.me/559294322782"
 
-
-
-
 export default function InfoBreaker() {
   const containerVariants = {
     hidden: { opacity: 0 },

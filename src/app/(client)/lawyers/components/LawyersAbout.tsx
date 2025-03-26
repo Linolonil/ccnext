@@ -11,7 +11,7 @@ export default function LawyersAbout() {
       id="advogados"
       className="py-16 px-4 relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100"
     >
-      <div className="container mx-auto">
+      <div className="w-full mx-auto">
         {/* Título com animação */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -32,8 +32,7 @@ export default function LawyersAbout() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 gap-8 justify-items-center"
-        >
+          className="grid w-full grid-cols-1 gap-10 justify-items-center md:grid-cols-1 2xl:grid-cols-2"        >
           {lawyers.map((lawyer) => (
             <LawyerCard key={lawyer.id} lawyer={lawyer} />
           ))}

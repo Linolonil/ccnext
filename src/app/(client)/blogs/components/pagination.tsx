@@ -25,12 +25,13 @@ export default function Pagination({
 
   // Função para construir a URL com todos os parâmetros
   const buildUrl = (pageNum: number) => {
-    const params = new URLSearchParams()
-    params.set('page', pageNum.toString())
-    if (currentCategory) params.set('category', currentCategory)
-    if (currentSearch) params.set('search', currentSearch)
-    return `?${params.toString()}`
-  }
+    const params = new URLSearchParams();
+    params.set('page', pageNum.toString());
+    if (currentCategory) params.set('category', currentCategory);
+    if (currentSearch) params.set('search', currentSearch);
+    
+    return `?${params.toString()}`;
+  };
 
   return (
     <div className="flex items-center justify-center gap-2 mt-8">

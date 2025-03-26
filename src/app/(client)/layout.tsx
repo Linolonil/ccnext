@@ -11,7 +11,9 @@ export default function ClientLayout({
   return (
      <main>
         <Navbar />
-        {children}
+        <div className="bg-gray-900">
+          {children}
+        </div>
         <WhatsAppButton/>  
         <Footer/>
      </main>

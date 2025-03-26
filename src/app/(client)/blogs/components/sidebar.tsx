@@ -8,7 +8,8 @@ export async function Sidebar() {
 
   const response = await fetch(`${serverUrl}/api/sidebar`, {
     next: {
-      tags: ['sidebar']
+      tags: ['sidebar'],
+      revalidate: 3600 
     }
   });
 

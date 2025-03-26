@@ -1,70 +1,60 @@
-"use client"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Calendar, Clock, Eye } from "lucide-react"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import {  Clock } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
 import { PostTypes } from "@/types"
 
 export function BlogPostCard({ post }: { post: PostTypes }) {
-  
+  function formatDate(dateString: string | Date) {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('pt-BR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })
+  }
+
   return (
-    <Card className="overflow-hidden border-none bg-background/50 backdrop-blur-sm hover:bg-background/80 transition-all duration-300 shadow-md hover:shadow-lg">
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
-        <div className="relative aspect-video md:w-full md:h-full">
-          <Image
-            src={post?.coverImage?.url || "/placeholder.svg"}
-            alt={post.title}
-            fill
-            className="object-cover"
-          />
+    <div className="group flex flex-col md:flex-row gap-4 p-4 border border-muted/30 rounded-lg hover:border-primary/20 transition-colors bg-white">
+      <div className="relative aspect-square w-full md:w-32 h-32 flex-shrink-0 overflow-hidden rounded-lg">
+        <Image
+          src={post?.coverImage?.url || "/placeholder.svg"}
+          alt={post.title}
+          fill
+          className="object-cover object-top group-hover:scale-105 transition-transform"
+        />
+      </div>
+      
+      <div className="flex flex-col flex-grow">
+        <div className="flex items-center gap-2 mb-2">
+          <Badge  className="text-xs px-2 py-0.5">
+            {post.category}
+          </Badge>
+          <span className="text-xs text-muted-foreground">
+            {formatDate(post.createdAt)}
+          </span>
         </div>
-        <div className="flex flex-col md:pt-0 pt-4">
-          <CardHeader className="pb-2">
-            <div className="mb-2">
-              <Badge>{post.category}</Badge>
-            </div>
-            <Link href={`/blogs/posts/${post?.slug}`} className="group">
-              <h2 className="line-clamp-2 text-2xl font-bold group-hover:text-primary group-hover:underline">
-                {post?.title}
-              </h2>
-            </Link>
-          </CardHeader>
-          <CardContent className="pb-2">
-            <p className="line-clamp-2 text-muted-foreground" title={post?.excerpt}>{post?.excerpt}</p>
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center">
-                <Calendar className="mr-1 h-4 w-4" />
-                {new Date(post?.createdAt).toLocaleDateString("pt-BR", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </div>
-              <div className="flex items-center">
-                <Clock className="mr-1 h-4 w-4" />
-                {post?.reading_time}
-              </div>
-              <div className="flex items-center">
-                <Eye className="mr-1 h-4 w-4" />
-                {post?.views} views
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="mt-auto">
-            <Button asChild variant="ghost" className="group px-0 text-primary font-medium hover:bg-transparent w-fit">
-              <Link href={`/blogs/posts/${post?.slug}`} className="flex items-center">
-                Ler artigo completo
-                <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                  <ArrowRight className="h-4 w-4 ml-1.5" />
-                </motion.div>
-              </Link>
-            </Button>
-          </CardFooter>
+        
+        <Link href={`/blogs/posts/${post.slug}`} className="hover:no-underline mb-2">
+          <h3 className="font-semibold line-clamp-2 group-hover:text-primary">
+            {post.title}
+          </h3>
+        </Link>
+        
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+          {post.excerpt}
+        </p>
+        
+        <div className="flex items-center justify-between mt-auto">
+          <span className="text-xs flex items-center gap-1 text-muted-foreground">
+            <Clock className="h-3 w-3" />
+            {post.reading_time || '5 min'}
+          </span>
+          <Link href={`/blogs/posts/${post.slug}`} className="italic text-primary h-auto p-0">
+            Ler mais →
+          </Link>
         </div>
       </div>
-    </Card>
+    </div>
   )
 }

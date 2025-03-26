@@ -9,12 +9,17 @@ import { getPostById } from "@/app/actions/posts";
 import { MarkdownViewerr } from "../../components/markdown";
 import { ShareButtons } from "../../components/ShareButtons";
 import { FaUser } from "react-icons/fa";
+import { incrementViews } from "@/app/actions/view-counter";
 
 
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug }  = await params
-  const post = await getPostById(slug);
+
+  const [post] = await Promise.all([
+    getPostById(slug),
+    incrementViews(slug) 
+  ]);
 
   if (!post) {
     return (
@@ -67,13 +72,13 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <div className="lg:col-span-3">
           <article>
             <div className="mb-8">
-              <Badge className="mb-4 bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Badge className="mb-4 bg-primary hover:bg-primary/90 text-muted">
                 {post.category}
               </Badge>
               <h1 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
                 {post.title}
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg prose">
                 {post.excerpt}
               </p>
             </div>
@@ -98,17 +103,17 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                 </div>
               )}
 
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center bg-muted/50 px-3 py-1.5 rounded-full">
-                  <Calendar className="mr-1.5 h-4 w-4 text-primary/80" />
+              <div className="flex flex-wrap items-center gap-4 text-sm text-primary-80">
+                <div className="flex items-center bg-gray-200 px-3 py-1.5 rounded-full">
+                  <Calendar className="mr-1.5 h-4 w-4 text-primary/90" />
                   {new Date(post.createdAt).toLocaleDateString("pt-BR")}
                 </div>
-                <div className="flex items-center bg-muted/50 px-3 py-1.5 rounded-full">
-                  <Clock className="mr-1.5 h-4 w-4 text-primary/80" />
+                <div className="flex items-center bg-gray-200 px-3 py-1.5 rounded-full">
+                  <Clock className="mr-1.5 h-4 w-4 text-primary/90" />
                   {post.reading_time}
                 </div>
-                <div className="flex items-center bg-muted/50 px-3 py-1.5 rounded-full">
-                  <Eye className="mr-1.5 h-4 w-4 text-primary/80" />
+                <div className="flex items-center bg-gray-200 px-3 py-1.5 rounded-full">
+                  <Eye className="mr-1.5 h-4 w-4 text-primary/90" />
                   {post.views} visualizações
                 </div>
               </div>
@@ -121,7 +126,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                 <h3 className="text-xl font-semibold mb-4">Tags</h3>
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="px-3 py-1">
+                    <Badge key={tag}  className="px-3 py-1">
                       {tag}
                     </Badge>
                   ))}
@@ -142,6 +147,16 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             </div>
           </article>
         </div>
+      </div>
+
+      <div className="mt-8">
+          <Link
+            href="/blogs"
+            className="inline-flex items-center text-sm font-medium text-primary hover:underline"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Voltar para todos os posts
+          </Link>
       </div>
     </div>
   );

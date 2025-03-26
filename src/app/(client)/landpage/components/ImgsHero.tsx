@@ -48,7 +48,7 @@ function ImgsHero() {
                     <Image
                       src={lawyer.image || "/placeholder.svg"}
                       alt={`${lawyer.name}`}
-                      className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:brightness-90"
+                      className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-110 group-hover:brightness-90 object-top" 
                       width={500}
                       height={400}
                       priority

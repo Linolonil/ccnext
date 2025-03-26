@@ -7,4 +7,6 @@ export interface ServicesTexts {
     description: string[];
     moreInfo: string[];
     phoneNumber: string;
+    keywords?: string[]; 
+
 }

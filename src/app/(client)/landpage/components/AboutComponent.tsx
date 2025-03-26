@@ -7,12 +7,26 @@ import { MessageSquare, Users, Award, Scale } from "lucide-react"
 import SectionDivider from "./SectionDivider"
 import { aboutTexts } from "../../(constants)/aboutTextsConstants"
 
-// This would normally be imported from your data file
-const whatsappBaseUrl = "https://wa.me/559294322782"
+interface AboutText {
+  id: number;
+  content: string;
+}
 
+interface ValueItem {
+  name: string;
+}
 
+const WHATSAPP_BASE_URL = "https://wa.me/559294322782"
 
 export default function AboutComponent() {
+  const values: ValueItem[] = [
+    { name: "Ética" },
+    { name: "Excelência" },
+    { name: "Compromisso" },
+    { name: "Transparência" },
+    { name: "Dedicação" }
+  ];
+
   return (
     <section id="sobre" className="py-20 relative overflow-hidden">
       {/* Background with overlay */}
@@ -37,7 +51,12 @@ export default function AboutComponent() {
           viewport={{ once: true }}
           className="text-white"
         >
-          <SectionDivider title="Sobre Nós" subtitle="Conheça nossa história e valores" className="text-white"  styless="text-gray-300" />
+          <SectionDivider 
+            title="Sobre Nós" 
+            subtitle="Conheça nossa história e valores" 
+            className="text-white"  
+            styless="text-gray-300" 
+          />
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8 mt-12">
@@ -53,20 +72,26 @@ export default function AboutComponent() {
               <div className="absolute top-0 left-0 w-1 h-full bg-[#d08d58]"></div>
 
               <CardContent className="p-8">
-                {aboutTexts.map((text, index) => (
-                  <motion.p
+                {(aboutTexts as AboutText[]).map((text, index) => (
+                  <motion.div
                     key={text.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                     viewport={{ once: true }}
-                    className="text-gray-700 mb-6 leading-relaxed"
                   >
                     {index === 0 && (
-                      <span className="text-[#d08d58] text-xl font-semibold block mb-2">Nossa História</span>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 rounded-full bg-[#d08d58]/10 text-[#d08d58]">
+                          <Users className="h-6 w-6" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-[#3c2a21]">Nossa História</h3>
+                      </div>
                     )}
-                    {text.content}
-                  </motion.p>
+                    <p className="text-gray-700 mb-6 leading-relaxed">
+                      {text.content}
+                    </p>
+                  </motion.div>
                 ))}
 
                 <motion.div
@@ -76,9 +101,12 @@ export default function AboutComponent() {
                   transition={{ duration: 0.5, delay: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  <Button asChild className="bg-[#d08d58] hover:bg-[#b87a4a] text-white px-6 py-6 text-lg shadow-md">
+                  <Button 
+                    asChild 
+                    className="bg-[#d08d58] hover:bg-[#b87a4a] text-white px-6 py-6 text-lg shadow-md"
+                  >
                     <a
-                      href={whatsappBaseUrl}
+                      href={WHATSAPP_BASE_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2"
@@ -112,19 +140,19 @@ export default function AboutComponent() {
                   </div>
 
                   <ul className="space-y-3">
-                    {["Ética", "Excelência", "Compromisso", "Transparência", "Dedicação"].map((value, i) => (
-                      <motion.li
-                        key={i}
+                      {values.map((value, i) => (
+                        <motion.li
+                        key={value.name}
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: 0.5 + i * 0.1 }}
-                        viewport={{ once: true }}
-                        className="flex items-center gap-2"
-                      >
-                        <span className="text-[#d08d58] font-bold">•</span>
-                        <span className="text-gray-700">{value}</span>
-                      </motion.li>
-                    ))}
+                          viewport={{ once: true }}
+                          className="flex items-center gap-2"
+                        >
+                          <span className="text-[#d08d58] font-bold">•</span>
+                          <span className="text-gray-700">{value.name}</span>
+                        </motion.li>
+                      ))}
                   </ul>
                 </CardContent>
               </Card>
@@ -162,9 +190,8 @@ export default function AboutComponent() {
                   </p>
 
                   <Button
-                    variant="outline"
                     asChild
-                    className="w-full border-[#d08d58] text-[#d08d58] hover:bg-[#d08d58] hover:text-white"
+                    className="bg-[#d08d58] hover:bg-[#b87a4a] text-white px-6 py-6 text-lg shadow-md w-full"
                   >
                     <a href="/lawyers">Conheça nossos advogados</a>
                   </Button>
@@ -177,4 +204,3 @@ export default function AboutComponent() {
     </section>
   )
 }
-
