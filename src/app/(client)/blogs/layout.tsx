@@ -25,23 +25,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <main
       className={cn(
-        "min-h-screen font-sans antialiased bg-gray-100", 
+        "min-h-screen font-sans antialiased bg-gray-100",
         fontSans.variable
       )}
     >
-        <Banner banner="Blog" bg={"/assets/bg-4.png"} />
+      <Banner banner="Blog" bg={"/assets/bg-4.png"} />
 
-        <div className="container mx-auto px-4 py-8 w-full ">
-  <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-20 ">
-    {/* Conteúdo Principal - Sempre primeiro no fluxo (mobile e desktop) */}
-    <div className="lg:col-span-8 order-1">{children}</div>
+      <div className="container mx-auto px-4 py-8 w-full ">
+        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-20 ">
+          {/* Conteúdo Principal - Sempre primeiro no fluxo (mobile e desktop) */}
+          <div className="lg:col-span-8 order-1">{children}</div>
 
-    {/* Sidebar - Aparece depois no mobile, sticky no desktop */}
-    <div className="lg:col-span-4 lg:top-20 order-2">
-      <Sidebar />
-    </div>
-  </div>
-</div>
+          {/* Sidebar - Aparece depois no mobile, sticky no desktop */}
+          <div className="lg:col-span-4 lg:top-20 order-2">
+            <Sidebar />
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

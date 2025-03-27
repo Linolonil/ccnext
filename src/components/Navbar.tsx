@@ -52,7 +52,7 @@ export function Navbar() {
     handleScroll(); // Verifica a posição inicial
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [scrollState.lastScroll]);
+  }, [scrollState.lastScroll, scrollState]);
 
   const { hasScrolled, showNav } = scrollState;
 

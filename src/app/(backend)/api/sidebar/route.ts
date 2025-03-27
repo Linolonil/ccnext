@@ -11,7 +11,7 @@ export async function GET() {
     await connectDB();
 
     // Busca todos os posts de uma vez
-    const posts = await Post.find({})
+    const posts = await Post.find({ published: true })
       .sort({ createdAt: -1 })
       .lean<PostDocument[]>();
 
